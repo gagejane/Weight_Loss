@@ -1,5 +1,5 @@
 import pandas as pd
-#import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
@@ -44,6 +44,7 @@ df = df.sort_values(by='date_time').reset_index(drop=True)
 #case 28 has missing data for all varaibles except weight, so drop
 df = df.drop([0,28])
 
+#PLOT LINE GRAPH
 #For plotting: Add a column of date ordinals
 df['date_ordinal'] = df['date_time'].apply(lambda date_time: date_time.toordinal())
 
@@ -80,39 +81,40 @@ plt.title("Weight loss from March to June 2019", fontweight='bold')
 #save figure
 plt.savefig('/Users/janestout/Dropbox/Projects/weight_loss/weight_loss_line1.png')
 #plt.show()
-# #
-#
-# df1 = df[['weight','body_fat','bmi','water', 'muscle_mass']]
-# scatter_matrix(df1,figsize = (10,10), alpha=.2)
-# plt.suptitle('Relationship Between Weight Indicators', fontsize=20, fontweight='bold')
-# plt.savefig('/Users/janestout/Dropbox/Projects/weight_loss/weight_loss_scatter_matrix.png')
-# #plt.show()
-#
-# #source for working with date_time: https://www.earthdatascience.org/courses/earth-analytics-python/use-time-series-data-in-python/subset-time-series-data-python/
-# df.set_index('date_time', inplace=True)
-# march = df['2019-03-01':'2019-03-31']
-# april = df['2019-04-01':'2019-04-30']
-# may = df['2019-05-01':'2019-05-31']
-#
-# import math
-#
-# march_mean = march['weight'].mean()
-# march_se = march['weight'].std()/math.sqrt(len(march.index))
-# april_mean = april['weight'].mean()
-# april_se = april['weight'].std()/math.sqrt(len(april.index))
-# may_mean = may['weight'].mean()
-# may_se = may['weight'].std()/math.sqrt(len(may.index))
-# month = ['March', 'April', 'May']
-# means = [march_mean, april_mean, may_mean]
-# ses = [march_se, april_se, may_se]
-#
-# #source for bar plot: http://benalexkeen.com/bar-charts-in-matplotlib/
-# x_pos = [i for i,_ in enumerate(month)]
-# plt.bar(x_pos, means, color='green', yerr=ses)
-# plt.xlabel('Month', fontweight='bold')
-# plt.ylabel('Pounds', fontweight='bold')
-# plt.title('Average Weight by Month (in lbs)', fontweight='bold')
-# plt.xticks(x_pos, month)
-# plt.ylim(195,210)
-# #plt.show()
-# plt.savefig('/Users/janestout/Dropbox/Projects/weight_loss/weight_loss_bar.png')
+
+#PLOT BAR GRAPH
+#source for working with date_time: https://www.earthdatascience.org/courses/earth-analytics-python/use-time-series-data-in-python/subset-time-series-data-python/
+df.set_index('date_time', inplace=True)
+march = df['2019-03-01':'2019-03-31']
+april = df['2019-04-01':'2019-04-30']
+may = df['2019-05-01':'2019-05-31']
+
+import math
+
+march_mean = march['weight'].mean()
+march_se = march['weight'].std()/math.sqrt(len(march.index))
+april_mean = april['weight'].mean()
+april_se = april['weight'].std()/math.sqrt(len(april.index))
+may_mean = may['weight'].mean()
+may_se = may['weight'].std()/math.sqrt(len(may.index))
+month = ['March', 'April', 'May']
+means = [march_mean, april_mean, may_mean]
+ses = [march_se, april_se, may_se]
+
+#source for bar plot: http://benalexkeen.com/bar-charts-in-matplotlib/
+x_pos = [i for i,_ in enumerate(month)]
+plt.bar(x_pos, means, color='green', yerr=ses)
+plt.xlabel('Month', fontweight='bold')
+plt.ylabel('Pounds', fontweight='bold')
+plt.title('Average Weight by Month (in lbs)', fontweight='bold')
+plt.xticks(x_pos, month)
+plt.ylim(195,210)
+#plt.show()
+plt.savefig('/Users/janestout/Dropbox/Projects/weight_loss/weight_loss_bar.png')
+
+#PLOT SCATTER MATRIX
+df1 = df[['weight','body_fat','bmi','water', 'muscle_mass']]
+scatter_matrix(df1,figsize = (10,10), alpha=.2)
+plt.suptitle('Relationship Between Weight Indicators', fontsize=20, fontweight='bold')
+plt.savefig('/Users/janestout/Dropbox/Projects/weight_loss/weight_loss_scatter_matrix.png')
+#plt.show()
